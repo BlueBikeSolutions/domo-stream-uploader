@@ -73,7 +73,7 @@ def process_chunk(args):
                 ),
                 headers = {'Authorization': 'Bearer ' + token,
                            'Content-Type': 'text/csv',
-                           #'Content-Encoding': 'gzip',
+                           'Content-Encoding': 'gzip',
                           },
                 data = data,
             )
