@@ -245,7 +245,7 @@ def main():
     if args.logging_config:
         logging.config.fileConfig(args.logging_config)
     else:
-        logging.basicConfig(level = logging.DEBUG)
+        logging.basicConfig(level = getattr(logging, args.log_level))
 
     logger = logging.getLogger('master')
 
@@ -272,9 +272,16 @@ SIZE_DEFAULT = hf.parse_size('100MB')
 ### GLOBAL ARGS
 
 parser = ap.ArgumentParser(description='Upload a CSV file to Domo in parallel chunks')
-parser.add_argument('--logging-config',
-                    help = "Logging configuration file",
-                   )
+
+logging_group = parser.add_mutually_exclusive_group()
+logging_group.add_argument('--logging-config',
+                           help = "Logging configuration file",
+                          )
+logging_group.add_argument('--log-level',
+                           help = "Manually set the logging level",
+                           default = 'INFO',
+                           choices = ('DEBUG', 'INFO', 'WARNING', 'ERROR'),
+                          )
 
 domo_group = parser.add_argument_group('domo', 'Domo configuration options')
 domo_group.add_argument('-u', '--client-id',
