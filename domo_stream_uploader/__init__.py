@@ -371,6 +371,5 @@ cancel_cmd_parser.add_argument('-i', '--stream-id',
                               )
 
 
-
 if __name__ == '__main__':
     main()
