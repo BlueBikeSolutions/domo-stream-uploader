@@ -172,6 +172,15 @@ def create_cmd(logger, args, auth_data):
 
     ds_data = resp.json()
 
+    DOMO_COLUMNS = (
+        '_BATCH_ID_',
+        '_BATCH_LAST_RUN_',
+    )
+    ds_data['schema']['columns'] = [
+        column for column in ds_data['schema']['columns']
+        if column['name'] not in DOMO_COLUMNS
+    ]
+
     resp = requests.post(
         'https://api.domo.com/v1/streams',
         headers = {'Authorization': 'Bearer ' + auth_data['access_token']},
