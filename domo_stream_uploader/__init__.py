@@ -57,13 +57,12 @@ def process_chunk(args):
 
     data = chunk.getvalue()
     full_size = len(data)
-    #data = gzip.compress(data)
+    data = gzip.compress(data)
     comp_size = len(data)
 
     logger.info('Starting to upload %s (%s raw size)',
                 hf.format_size(comp_size), hf.format_size(full_size),
                )
-    logging.debug(data)
 
     retries = 10
     for retry_idx in range(retries):  # TODO configurable retries
@@ -76,6 +75,7 @@ def process_chunk(args):
                            'Content-Type': 'text/csv',
                            #'Content-Encoding': 'gzip',
                           },
+                data = data,
             )
 
         except RequestException:
